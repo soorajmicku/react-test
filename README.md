@@ -18,6 +18,12 @@ To run tests:
 npm run test
 ```
 
+## Live Deployment
+
+This project is deployed on **Vercel** and can be accessed at:
+
+**[Live App](https://react-test-rouge-three.vercel.app/)**
+
 ## Overview
 
 This is a mortgage calculator application built with Next.js and React. The application calculates and displays the monthly mortgage payments, total payments over the full term, and total interest payments based on user inputs. Additionally, it dynamically fetches the interest rate from the Bank of England's website.
@@ -37,6 +43,7 @@ This is a mortgage calculator application built with Next.js and React. The appl
 - **Unit Tests**:
   - Comprehensive tests for components and logic.
   - Uses Jest and React Testing Library.
+  - Tests run in development and production (Vercel) without interfering with the Next.js build.
 - **No-JS Support**:
   - Ensures the calculator works even if JavaScript is disabled.
 
@@ -48,11 +55,12 @@ This is a mortgage calculator application built with Next.js and React. The appl
 
 2. **Check API Implementation**:
    - Review `pages/api/interest-rate.ts` for dynamic interest rate fetching.
-   - The API uses environment variable  (`NEXT_PUBLIC_BOE_API_URL`).
+   - The API uses an environment variable (`NEXT_PUBLIC_BOE_API_URL`).
 
 3. **Review Test Coverage**:
    - Run `npm run test` to verify unit tests.
    - Tests are implemented for mortgage calculation logic and API handling.
+   - Tests also run on **Vercel post-deployment**.
 
 4. **No-JS Functionality**:
    - The form gracefully degrades when JavaScript is disabled, allowing basic mortgage calculations.
@@ -67,3 +75,6 @@ NEXT_PUBLIC_BOE_API_URL=https://www.bankofengland.co.uk/boeapps/iadb/fromshowcol
 
 This ensures that the application dynamically fetches the latest interest rate.
 
+---
+
+ **Live App URL**: [https://react-test-rouge-three.vercel.app/](https://react-test-rouge-three.vercel.app/)
