@@ -19,11 +19,15 @@ interface MortgageResults {
 
 export default function MortgageCalculator() {
   const [results, setResults] = useState<MortgageResults | null>(null);
+  const [error, setError] = useState<string | null>(null); // State for error message
 
   /** 
    * Calls the API to calculate mortgage results
    */
   const handleCalculate = async (price: number, deposit: number, term: number, interest: number) => {
+    setError(null); // Reset error before making request
+    setResults(null); // Clear previous results if any
+
     try {
       const response = await fetch("/api/mortgage", {
         method: "POST",
@@ -31,14 +35,16 @@ export default function MortgageCalculator() {
         body: JSON.stringify({ price, deposit, term, interest }),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        throw new Error("Failed to fetch mortgage calculations");
+        throw new Error(data.error || "Failed to fetch mortgage calculations");
       }
 
-      const data = await response.json();
       setResults(data);
     } catch (error) {
       console.error("Error fetching mortgage results:", error);
+      setError(error instanceof Error ? error.message : "An unexpected error occurred");
     }
   };
 
@@ -52,8 +58,17 @@ export default function MortgageCalculator() {
           <MortgageForm onCalculate={handleCalculate} />
         </Col>
 
-        {/* Display Results */}
-        {results && (
+        {/* Display Error Message */}
+        {error && (
+          <Col md="auto">
+            <div className="alert alert-danger" role="alert">
+              {error}
+            </div>
+          </Col>
+        )}
+
+        {/* Display Results Only if No Error */}
+        {!error && results && (
           <>
             <Col md="auto">
               <h2 className="pb-3">Results</h2>

@@ -52,7 +52,7 @@ describe("POST /api/mortgage", () => {
     await handler(req, res);
 
     expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({ error: "Missing required fields" });
+    expect(res.json).toHaveBeenCalledWith({ error: "Invalid input values. All values must be greater than zero." });
   });
 
   test("should return 405 for non-POST methods", async () => {
@@ -64,14 +64,14 @@ describe("POST /api/mortgage", () => {
     expect(res.json).toHaveBeenCalledWith({ error: "Method Not Allowed" });
   });
 
-  test("should return 500 for server error", async () => {
+  test("should return 400 for input error", async () => {
     (calculateMortgageDetails as jest.Mock).mockImplementation(() => {
       throw new Error("Calculation Error");
     });
 
     await handler(req, res);
 
-    expect(res.status).toHaveBeenCalledWith(500);
-    expect(res.json).toHaveBeenCalledWith({ error: "Internal Server Error" });
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({ error: "Calculation Error" });
   });
 });
